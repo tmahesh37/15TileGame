@@ -1,0 +1,74 @@
+body{
+  background: url('./../background.jpg');
+}
+
+.iconDiv{
+  height: 100px;
+  width: 100px;
+  margin: 20px;
+}
+
+.mask p{
+  margin: 0;
+  position: absolute;
+  top: 10%;
+  left: 150px;
+  font-size: xx-large;
+  font-family: Georgia;
+  color: #f4ff00;
+}
+
+.mask input{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: xx-large;
+  font-family: cursive;
+}
+
+.container{
+  margin-top: 100px;
+  width: 500px;
+  border: 1px solid black;
+}
+.row{
+  height : 100px;
+}
+.cell {
+    height : 100px;
+    border: 1px solid black;
+    user-select: none;
+}
+
+.cell p{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: xx-large;
+    font-family: cursive;
+}
+
+.alertMsg{
+  position: absolute;
+  z-index: 1000;
+  height: 50px;
+  width: 50%;
+  top: 20px;
+  right: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.alertMsg p{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: large;
+  font-family: cursive;
+}
