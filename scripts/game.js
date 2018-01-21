@@ -12,10 +12,52 @@ var game  = {
     return mainContainer;
   },
 
+  getRandomData : function getRandomData(count){
+    var data = [
+      [1,2,3,4],
+      [5,6,7,8],
+      [9,10,11,12],
+      [13,14,15,0]
+    ];
+
+    initX = 3;
+    initY = 3;
+    while(count !== 0){
+      //Descision of Row or Column
+      var rowOrColumn = (Math.floor((Math.random() * 10) + 0) > 5) ? 'row' : 'column',
+          upOrDown    = (Math.floor((Math.random() * 10) + 0) > 5) ? 1 : -1 ;
+
+      if(rowOrColumn === 'row'){
+        if(0 <= initY + upOrDown && initY + upOrDown <= 3 ){
+            var temp = data[initX][initY + upOrDown];
+            data[initX][initY + upOrDown] = 0 ;
+            data[initX][initY] = temp ;
+            initY = initY + upOrDown ;
+            count--;
+        }
+      }else if(rowOrColumn === 'column'){
+        if(0 <= initX + upOrDown  && initX + upOrDown <= 3 ){
+            var temp = data[initX + upOrDown][initY];
+            data[initX + upOrDown][initY] = 0 ;
+            data[initX][initY] = temp ;
+            initX = initX + upOrDown ;
+            count--;
+        }
+      }
+    }
+
+    var result = [];
+    for(var ii=0 ; ii < 4 ; ii++){
+      result = result.concat(data[ii]);
+    }
+
+    return result;
+  },
+
   createTable : function (renderTo){
 
     var index = 0,
-        values = [1,2,3,4,5,6,7,8,9,10,11,12,13,0,14,15];
+        values = this.getRandomData(5);
 
     for(var ii=0 ; ii < 4 ; ii++){
       var divRow = createElement('div',{
