@@ -87,6 +87,7 @@ var app = {
   startGame : function startGame(){
       this.body.setValue("");
       this.body.append(game.init(this.onSuccess.bind(this)));
+      this.body.append(this.createInstructionsDiv());
   },
 
   onSuccess : function onSuccess(){

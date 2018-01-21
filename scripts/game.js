@@ -71,7 +71,7 @@ var game  = {
 
   fillCell : function fillCell(div, value){
     var cellContent = createElement('p',{
-      'value'   : value
+      'value'   : (value === 0) ? "" : value
     });
     div.setValue("");
     div.setAttribute('value', value);
