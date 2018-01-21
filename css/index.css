@@ -58,6 +58,15 @@ body{
   width: 500px;
   border: 1px solid black;
 }
+.body >.instructionDiv{
+  font-size: xx-large;
+  font-family: cursive;
+  border: 2px solid black;
+  width: 100%;
+  border-radius: 25px;
+  margin-top: 40px;
+}
+
 .row{
   height : 100px;
 }
