@@ -48,7 +48,7 @@ var app = {
         'type' : 'button',
         "value": "PLAY"
       },
-      'onclick'     : this.startGame.bind(this)
+      'onclick'     : this.requestDifficulty.bind(this)
     });
     mask.append(startButton);
     mask.append(this.createInstructionsDiv());
@@ -80,13 +80,56 @@ var app = {
     var cellContent = createElement('p',{
       'value'   : value
     });
-    div.setAttribute('value', value);
     div.append(cellContent);
   },
 
-  startGame : function startGame(){
+  requestDifficulty : function requestDifficulty(){
+    this.body.setValue("");
+    var difficultyDiv = createElement('div',{
+      'class'   : 'difficultyDiv'
+    });
+    this.fillCell(difficultyDiv,'Choose your difficulty level');
+
+    var buttonGroupDiv = createElement('div',{
+      'class'   : 'btn-group btn-group-lg'
+    });
+
+    var easy = createElement('input',{
+      'class'       : 'btn',
+      'attributes'  : {
+        'type' : 'button',
+        "value": "EASY"
+      },
+      'onclick'     : function(){this.startGame(10)}.bind(this)
+    });
+    buttonGroupDiv.append(easy);
+    var medium = createElement('input',{
+      'class'       : 'btn',
+      'attributes'  : {
+        'type' : 'button',
+        "value": "MEDIUM"
+      },
+      'onclick'     : function(){this.startGame(20)}.bind(this)
+    });
+    buttonGroupDiv.append(medium);
+    var hard = createElement('input',{
+      'class'       : 'btn',
+      'attributes'  : {
+        'type' : 'button',
+        "value": "HARD"
+      },
+      'onclick'     : function(){this.startGame(40)}.bind(this)
+    });
+    buttonGroupDiv.append(hard);
+
+    difficultyDiv.append(buttonGroupDiv);
+
+    this.body.append(difficultyDiv);
+  },
+
+  startGame : function startGame(difficultyCount){
       this.body.setValue("");
-      this.body.append(game.init(this.onSuccess.bind(this)));
+      this.body.append(game.init(difficultyCount, this.onSuccess.bind(this)));
       this.body.append(this.createInstructionsDiv());
   },
 

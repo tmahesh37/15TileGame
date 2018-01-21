@@ -3,11 +3,11 @@ var game  = {
   alertMsg : undefined,
   callback : undefined,
 
-  init : function init(callback){
+  init : function init(difficultyCount , callback){
     var mainContainer = createElement('div',{
       'class' : 'container'
     });
-    this.createTable(mainContainer);
+    this.createTable(mainContainer,difficultyCount);
     this.callback = callback;
     return mainContainer;
   },
@@ -54,10 +54,10 @@ var game  = {
     return result;
   },
 
-  createTable : function (renderTo){
+  createTable : function (renderTo,difficultyCount){
 
     var index = 0,
-        values = this.getRandomData(5);
+        values = this.getRandomData(difficultyCount);
 
     for(var ii=0 ; ii < 4 ; ii++){
       var divRow = createElement('div',{
