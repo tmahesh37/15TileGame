@@ -2,20 +2,32 @@ body{
   background: url('./../background.jpg');
 }
 
-.iconDiv{
+.header{
+  height: 100px;
+  width: 100%;
+  display: flex;
+  background: #555555;
+}
+
+.header .iconDiv{
   height: 100px;
   width: 100px;
   margin: 20px;
+  transform: rotate(-25deg);
 }
 
-.mask p{
+.header p{
   margin: 0;
   position: absolute;
-  top: 10%;
+  top: 25px;
   left: 150px;
   font-size: xx-large;
-  font-family: Georgia;
-  color: #f4ff00;
+  font-family: cursive;
+  color: #e5e5e5;
+}
+
+.body{
+  height: calc(100% - 100px);
 }
 
 .mask input{
@@ -26,6 +38,19 @@ body{
   transform: translate(-50%, -50%);
   font-size: xx-large;
   font-family: cursive;
+  border: 2px solid black;
+}
+
+.mask .instructionDiv{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  font-size: xx-large;
+  font-family: cursive;
+  border: 2px solid black;
+  width: 80%;
+  border-radius: 25px;
 }
 
 .container{
@@ -71,4 +96,14 @@ body{
   transform: translate(-50%, -50%);
   font-size: large;
   font-family: cursive;
+}
+
+.pyro p{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: -webkit-xxx-large;
+  font-family: cursive;
+  color: #096108;
 }
