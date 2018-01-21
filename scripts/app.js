@@ -22,7 +22,7 @@ var app = {
     var iconDiv = createElement('img',{
       'class' : 'iconDiv',
       'attributes'  : {
-        'src' : './gameIcon.png'
+        'src' : './gameIcon.jpg'
       },
     });
     header.append(iconDiv);
