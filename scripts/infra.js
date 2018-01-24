@@ -48,5 +48,13 @@ var createElement = function(type,options){
   if(typeof options.onclick !== "undefined"){
     div.onclick = options.onclick;
   }
+
+  if(typeof options.html !== "undefined"){
+    for(i=0 ; i < options.html.length ; i++){
+      var elem = createElement(options.html[i].type,options.html[i].options);
+      div.append(elem);
+    }
+  }
+
   return div;
 };

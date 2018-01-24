@@ -30,7 +30,7 @@ body{
   height: calc(100% - 100px);
 }
 
-.body > .difficultyDiv{
+.body > .preferenceDiv{
   position: absolute;
   top: 50%;
   left: 50%;
@@ -43,7 +43,7 @@ body{
   width: 60%;
 }
 
- .difficultyDiv > .btn-group  > .btn{
+ .preferenceDiv > .btn-group  > .btn{
    border: 2px solid black;
  }
 
@@ -131,4 +131,14 @@ body{
   font-size: -webkit-xxx-large;
   font-family: cursive;
   color: #096108;
+}
+
+.pyro input{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  font-size: xx-large;
+  font-family: cursive;
+  border: 2px solid black;
 }

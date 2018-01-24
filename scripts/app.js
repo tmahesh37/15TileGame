@@ -26,7 +26,7 @@ var app = {
       },
     });
     header.append(iconDiv);
-    this.fillCell(header,"15 Puzzle Game");
+    this.fillCell(header,"Puzzle Game");
     return header;
   },
 
@@ -48,7 +48,7 @@ var app = {
         'type' : 'button',
         "value": "PLAY"
       },
-      'onclick'     : this.requestDifficulty.bind(this)
+      'onclick'     : this.requestPreferences.bind(this)
     });
     mask.append(startButton);
     mask.append(this.createInstructionsDiv());
@@ -69,7 +69,7 @@ var app = {
 
     var instructionDivContent = createElement('p',{
       'class' : 'instructionDivContent',
-      'value' : 'Move tiles in grid to order them from <b>1 to 15</b>. To move a tile click on it.'
+      'value' : 'Move tiles in grid to order them. To move a tile click on it.'
     });
     instructionDiv.append(instructionDivContent);
 
@@ -83,67 +83,148 @@ var app = {
     div.append(cellContent);
   },
 
-  requestDifficulty : function requestDifficulty(){
+  requestPreferences : function requestPreferences(){
+    var self = this,
+        difficultyDiv,
+        difficultyLevel,
+        puzzleSizeDiv,
+        puzzleSize;
+
     this.body.setValue("");
-    var difficultyDiv = createElement('div',{
-      'class'   : 'difficultyDiv'
-    });
-    this.fillCell(difficultyDiv,'Choose your difficulty level');
 
-    var buttonGroupDiv = createElement('div',{
-      'class'   : 'btn-group btn-group-lg'
+    preferenceDiv = createElement('div',{
+      'class'   : 'preferenceDiv'
     });
 
-    var easy = createElement('input',{
-      'class'       : 'btn',
-      'attributes'  : {
-        'type' : 'button',
-        "value": "EASY"
-      },
-      'onclick'     : function(){this.startGame(10)}.bind(this)
-    });
-    buttonGroupDiv.append(easy);
-    var medium = createElement('input',{
-      'class'       : 'btn',
-      'attributes'  : {
-        'type' : 'button',
-        "value": "MEDIUM"
-      },
-      'onclick'     : function(){this.startGame(20)}.bind(this)
-    });
-    buttonGroupDiv.append(medium);
-    var hard = createElement('input',{
-      'class'       : 'btn',
-      'attributes'  : {
-        'type' : 'button',
-        "value": "HARD"
-      },
-      'onclick'     : function(){this.startGame(40)}.bind(this)
-    });
-    buttonGroupDiv.append(hard);
+    var puzzlePromise = function(resolve, reject) {
+      preferenceDiv.setValue("");
+      self.fillCell(preferenceDiv,'Choose your Puzzle size');
 
-    difficultyDiv.append(buttonGroupDiv);
+      var onPuzzleSizeSelection = function(e){
+        puzzleSize = parseInt(e.currentTarget.getAttribute('puzzleSize'));
+        resolve();
+      };
+      puzzleSizeDiv = createElement('div',{
+        'class'   : 'puzzleSize btn-group btn-group-lg',
+        'html'  : [
+          {
+            type : 'input',
+            options: {
+              'class'       : 'btn',
+              'attributes'  : {
+                'type' : 'button',
+                "value": "3*3",
+                "puzzleSize": 3
+              },
+              'onclick'     : onPuzzleSizeSelection
+            }
+          },
+          {
+            type : 'input',
+            options: {
+              'class'       : 'btn',
+              'attributes'  : {
+                'type' : 'button',
+                "value": "4*4",
+                "puzzleSize": 4
+              },
+              'onclick'     : onPuzzleSizeSelection
+            }
+          },
+          {
+            type : 'input',
+            options: {
+              'class'       : 'btn',
+              'attributes'  : {
+                'type' : 'button',
+                "value": "6*6",
+                "puzzleSize": 6
+              },
+              'onclick'     : onPuzzleSizeSelection
+            }
+          }
+        ]
+      });
 
-    this.body.append(difficultyDiv);
+      preferenceDiv.append(puzzleSizeDiv);
+    };
+
+    var difficultyPromise = function(resolve, reject) {
+      preferenceDiv.setValue("");
+      self.fillCell(preferenceDiv,'Choose your Puzzle difficulty');
+
+      var onDifficultySelection = function(e){
+        difficultyLevel = parseInt(e.currentTarget.getAttribute('difficultyCount'));
+        resolve();
+      };
+      difficultyDiv = createElement('div',{
+        'class'   : 'difficultyCount btn-group btn-group-lg',
+        'html'  : [
+          {
+            type : 'input',
+            options: {
+              'class'       : 'btn',
+              'attributes'  : {
+                'type' : 'button',
+                "value": "EASY",
+                "difficultyCount" : 3
+              },
+              'onclick'     : onDifficultySelection
+            }
+          },
+          {
+            type : 'input',
+            options: {
+              'class'       : 'btn',
+              'attributes'  : {
+                'type' : 'button',
+                "value": "MEDIUM",
+                "difficultyCount" : 6
+              },
+              'onclick'     : onDifficultySelection
+            }
+          },
+          {
+            type : 'input',
+            options: {
+              'class'       : 'btn',
+              'attributes'  : {
+                'type' : 'button',
+                "value": "HARD",
+                "difficultyCount" : 10
+              },
+              'onclick'     : onDifficultySelection
+            }
+          }
+        ]
+      });
+
+      preferenceDiv.append(difficultyDiv);
+    };
+
+    new Promise(puzzlePromise).then(function() {
+      new Promise(difficultyPromise).then(function() {
+        self.startGame(puzzleSize,difficultyLevel*puzzleSize);
+      });
+    });
+
+    this.body.append(preferenceDiv);
   },
 
-  startGame : function startGame(difficultyCount){
+  startGame : function startGame(puzzleSize,difficultyCount){
       this.body.setValue("");
-      this.body.append(game.init(difficultyCount, this.onSuccess.bind(this)));
+      this.body.append(game.init(puzzleSize,difficultyCount, this.onSuccess.bind(this)));
       this.body.append(this.createInstructionsDiv());
   },
 
   onSuccess : function onSuccess(){
       this.body.setValue("");
-      this.body.append(this.createCongratulationsDiv());
-
-      setTimeout(function(){
-        this.body.setValue("");
-        this.body.append(this.createMask());
-      }.bind(this),5000);
+      this.body.append(this.createCongratulationsDiv(function(){
+          this.requestPreferences();
+        }));
   },
 
-  createCongratulationsDiv : function createCongratulationsDiv(){
+  createCongratulationsDiv : function createCongratulationsDiv(callback){
     var pyro = createElement('div',{
       'class' : 'pyro',
     });
@@ -161,6 +242,18 @@ var app = {
       'value' : 'Congratulations !!!!...',
     });
     pyro.append(pyroAfter);
+
+    retryBtn = createElement('input',{
+      'class'       : 'btn btn-lg',
+      'attributes'  : {
+        'type' : 'button',
+        "value": 'Play Again',
+        "difficultyCount" : 3
+      },
+      'onclick'     : callback.bind(this)
+    });
+
+    pyro.append(retryBtn);
 
     return pyro;
   }

@@ -2,33 +2,40 @@ var game  = {
   emptyDiv : undefined,
   alertMsg : undefined,
   callback : undefined,
+  puzzleSize : undefined,
 
-  init : function init(difficultyCount , callback){
+  init : function init(puzzleSize, difficultyCount , callback){
     var mainContainer = createElement('div',{
       'class' : 'container'
     });
-    this.createTable(mainContainer,difficultyCount);
+    this.createTable(mainContainer,puzzleSize,difficultyCount);
     this.callback = callback;
+    this.puzzleSize = puzzleSize;
     return mainContainer;
   },
 
-  getRandomData : function getRandomData(count){
-    var data = [
-      [1,2,3,4],
-      [5,6,7,8],
-      [9,10,11,12],
-      [13,14,15,0]
-    ];
+  getRandomData : function getRandomData(level,count){
+    var data = [];
+    for(var row=0 ; row < level ; row++){
+      data[row] = [];
+      for(var column=0 ; column < level ; column++){
+          if(row  === (level-1) && column  === (level-1)){
+            data[row][column] = 0;
+          }else{
+            data[row][column] = (row*level)+(column+1);
+          }
+      }
+    }
 
-    initX = 3;
-    initY = 3;
+    initX = level-1;
+    initY = level-1;
     while(count !== 0){
       //Descision of Row or Column
       var rowOrColumn = (Math.floor((Math.random() * 10) + 0) > 5) ? 'row' : 'column',
           upOrDown    = (Math.floor((Math.random() * 10) + 0) > 5) ? 1 : -1 ;
 
       if(rowOrColumn === 'row'){
-        if(0 <= initY + upOrDown && initY + upOrDown <= 3 ){
+        if(0 <= initY + upOrDown && initY + upOrDown <= level-1 ){
             var temp = data[initX][initY + upOrDown];
             data[initX][initY + upOrDown] = 0 ;
             data[initX][initY] = temp ;
@@ -36,7 +43,7 @@ var game  = {
             count--;
         }
       }else if(rowOrColumn === 'column'){
-        if(0 <= initX + upOrDown  && initX + upOrDown <= 3 ){
+        if(0 <= initX + upOrDown  && initX + upOrDown <= level-1 ){
             var temp = data[initX + upOrDown][initY];
             data[initX + upOrDown][initY] = 0 ;
             data[initX][initY] = temp ;
@@ -47,27 +54,27 @@ var game  = {
     }
 
     var result = [];
-    for(var ii=0 ; ii < 4 ; ii++){
+    for(var ii=0 ; ii < level ; ii++){
       result = result.concat(data[ii]);
     }
 
     return result;
   },
 
-  createTable : function (renderTo,difficultyCount){
+  createTable : function (renderTo,puzzleSize,difficultyCount){
 
     var index = 0,
-        values = this.getRandomData(difficultyCount);
-
-    for(var ii=0 ; ii < 4 ; ii++){
+        values = this.getRandomData(puzzleSize,difficultyCount),
+        columnsize= Math.floor(12/puzzleSize);
+    for(var ii=0 ; ii < puzzleSize ; ii++){
       var divRow = createElement('div',{
         'class' : 'row'
       });
       renderTo.append(divRow);
-      for(var jj=1 ; jj <= 4 ; jj++){
+      for(var jj=0 ; jj < puzzleSize ; jj++){
         var value  = values[index++];
         var cell = createElement('div',{
-          'class'   : 'cell text-center col-xs-3 col-sm-3 col-md-3 col-lg-3',
+          'class'   : 'cell text-center col-xs-'+columnsize+' col-sm-'+columnsize+' col-md-'+columnsize+' col-lg-'+columnsize,
           'attributes' : {
             'row'     : ii,
             'column'  : jj,
@@ -128,13 +135,13 @@ var game  = {
           value   = parseInt(div.getAttribute('value')),
           row     = parseInt(div.getAttribute('row')),
           column  = parseInt(div.getAttribute('column'));
-      if((row === 3) && (column === 4)){
+      if((row === this.puzzleSize-1) && (column === this.puzzleSize-1)){
         if((value !== 0)){
           validate = false;
           break;
         }
       }
-      else if(value !== ((row*4)+column)){
+      else if(value !== ((row*this.puzzleSize)+(column+1))){
         validate = false;
         break;
       }
