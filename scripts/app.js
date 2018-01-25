@@ -239,7 +239,7 @@ var app = {
     pyro.append(pyroAfter);
 
     var pyroAfter = createElement('p',{
-      'value' : 'Congratulations !!!!...',
+      'value' : 'Congratulations!!!!...',
     });
     pyro.append(pyroAfter);
 
