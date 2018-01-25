@@ -60,7 +60,7 @@ var app = {
       'class' : 'instructionDiv'
     });
 
-    var instructionDivTitle = createElement('h1',{
+    var instructionDivTitle = createElement('p',{
       'class' : 'instructionDivTitle',
       'value' : '<b>INSTRUCTIONS : </b>'
     });
